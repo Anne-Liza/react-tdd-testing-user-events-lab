@@ -1,4 +1,26 @@
+import React, { useState } from 'react';
+
 function App() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [interests, setInterests] = useState({
+    interest1: false,
+    interest2: false,
+    interest3: false
+  });
+  const [message, setMessage] = useState('');
+
+  const handleNameChange = (event) => setName(event.target.value);
+  const handleEmailChange = (event) => setEmail(event.target.value);
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+    setInterests((prevInterests) => ({ ...prevInterests, [name]: checked }));
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setMessage('Form submitted');
+  };
+
   return (
     <main>
       <h1>Hi, I'm (your name)</h1>
@@ -18,6 +40,62 @@ function App() {
         <a href="https://github.com">GitHub</a>
         <a href="https://linkedin.com">LinkedIn</a>
       </div>
+
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>
+            Name:
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={handleNameChange}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Email:
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={handleEmailChange}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              name="interest1"
+              checked={interests.interest1}
+              onChange={handleCheckboxChange}
+            />
+            Interest 1
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              name="interest2"
+              checked={interests.interest2}
+              onChange={handleCheckboxChange}
+            />
+            Interest 2
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              name="interest3"
+              checked={interests.interest3}
+              onChange={handleCheckboxChange}
+            />
+            Interest 3
+          </label>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+      {message && <p>{message}</p>}
     </main>
   );
 }
